@@ -1,0 +1,15 @@
+Varnish-Cache Modular Configuration
+===================================
+
+Features
+--------
+* Backends
+* Modules
+
+Modules
+-------
+* ShortCicuit
+* Debug
+* Main
+* PHP (TODO)
+* Drupal (TODO)
