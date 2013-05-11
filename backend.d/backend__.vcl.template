@@ -1,3 +1,16 @@
+/*
+ * Health Check
+ */
+probe healthcheck_be1 {
+   .url = "/";
+   .interval = 60s;
+   .timeout = 0.3 s;
+   .window = 8;
+   .threshold = 3;
+   .initial = 3;
+   .expected_response = 200;
+}
+
 /**
  * BackEnd BE1
  * Description
@@ -6,4 +19,8 @@
 backend be1 {
     .host = "127.0.0.1";
     .port = "80";
+    .connect_timeout = 0.7s;
+    .first_byte_timeout = 60s;
+    .between_bytes_timeout = 60s;
+    .probe = healthcheck_be1;
 }
