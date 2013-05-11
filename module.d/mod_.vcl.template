@@ -25,7 +25,7 @@ sub vcl_fetch {
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
     if( req.http.X-Varnish-Debug ) {
-        set resp.http.X-Varnish-Debug-Mod = "Enabled";
+        set resp.http.X-Varnish-Debug-ModX = "Enabled";
     }
 }
 
@@ -43,3 +43,4 @@ sub vcl_pipe {
 sub vcl_hash {
 
 }
+
