@@ -1,10 +1,13 @@
 /*
  * Module Drupal
  */
+ 
+include "module.d/mod_drupal_lib.vcl";
 
 ########[ RECV ]################################################################
 sub vcl_recv {
-
+    # Conflicts with MOD_Main::removeCookiesFromStaticsRx
+    call removeCookiesFromStaticsRxKeepDrupals;
 }
 
 ########[ HIT ]#################################################################
@@ -19,7 +22,8 @@ sub vcl_miss {
 
 ########[ FETCH ]###############################################################
 sub vcl_fetch {
-
+    # Conflicts with MOD_Main::removeCookiesFromStaticsTx
+    call removeCookiesFromStaticsTxKeepDrupals;
 }
 
 ########[ DELIVER ]#############################################################
