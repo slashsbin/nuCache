@@ -30,24 +30,27 @@ sub passIfNonIdempotent {
  * Set Client IP for a Restarted Request
  */
 sub setClientIPOnRestart {
-    if (req.restarts == 0) {
-        if (req.http.X-Forwarded-For) {
-            set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
-        } else {
-            set req.http.X-Forwarded-For = client.ip;
-        }
+    if (req.restarts > 0) {
+        call setClientIPAppend;
     }
 }
 
 /**
- * Handle BackEnd MisConfigured Redirects
+ * Force Client IP
  */
-sub handleMisRedirects {
-    if (beresp.status == 301 || beresp.status == 302) {
-        #set beresp.http.X-WOW = req.http.host;
-        #if ( beresp.http.Location ~ server.ip ) {
-            #set beresp.http.Location = regsub(beresp.http.Location, server.ip, req.http.host);
-        #}
+sub setClientIPOverride {
+    remove req.http.X-Forwarded-For;
+    set req.http.X-Forwarded-For = client.ip;
+}
+
+/**
+ * Append Client IP
+ */
+sub setClientIPAppend {
+    if (req.http.X-Forwarded-For) {
+        set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
+    } else {
+        set req.http.X-Forwarded-For = client.ip;
     }
 }
 
@@ -223,15 +226,55 @@ sub hashCompressClients {
  */
 sub banIfAllowed {
     if (req.request == "BAN") {
-	/**
-	 * The purge ACL can be controlled in acl.vcl
-	 */
-	if (!client.ip ~ purge) {
+        /**
+         * The purge ACL can be controlled in acl.vcl
+         */
+        if (!client.ip ~ purge) {
             error 405 "Not allowed.";
         }
-
+        
         ban("req.http.host == " + req.http.host + " && req.url ~ " + req.url);
-
+        
         error 200 "Ban added";
     }
 }
+
+/*
+ * Saint Mode: 500 Internal Server Error
+ * Fallback on Grace Mode
+ */
+sub saintModeOnServerInternalError {
+    if (beresp.status == 500) {
+        set beresp.saintmode = 10s;
+        return(restart);
+    }
+    set beresp.grace = 5m;
+}
+
+/*
+ * Saint Mode: 503 Service Unavailable
+ * Fallback on Grace Mode
+ */
+sub saintModeOnServiceUnavailable {
+    if (beresp.status == 503) {
+        set beresp.saintmode = 10s;
+        return(restart);
+    }
+    set beresp.grace = 5m;
+}
+
+/*
+ * Saint Mode: 500, 503
+ * @see saintModeOnServerInternalError
+ * @see saintModeOnServiceUnavailable
+ */
+sub saintModeOnAny {
+    #call saintModeOnServerInternalError;
+    #call saintModeOnServiceUnavailable;
+    if (beresp.status == 500 || beresp.status == 503) {
+        set beresp.saintmode = 10s;
+        return(restart);
+    }
+    set beresp.grace = 5m;
+}
+

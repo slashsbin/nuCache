@@ -13,22 +13,28 @@ include "module.d/mod_main_lib.vcl";
  * Return: pass|pipe|lookup
  */
 sub vcl_recv {
-	#call banIfAllowed;
-	call pipeIfNonRFC2616;
-	call passIfNonIdempotent;
-	call passPipeIfAuthorized;
-	#call removeCookiesFromAll;
-	call removeCookiesFromStaticsRx;
-	#call normalizeUserAgent;
-	call normalizeAcceptEncoding;
-	call setClientIPOnRestart;
-	call cacheAlwaysWWW;
-	call cacheAlwaysScripts;
-	call cacheAlwaysImages;
-	call cacheAlwaysMultimedia;
-	call cacheAlwaysXML;
-	
-	return (lookup);
+    #call banIfAllowed;
+    #call normalizeUserAgent;
+    call normalizeAcceptEncoding;
+    
+    call setClientIPOnRestart;
+    #call setClientIPOverride;
+    call setClientIPAppend;
+    
+    call pipeIfNonRFC2616;
+    call passIfNonIdempotent;
+    call passPipeIfAuthorized;
+    
+    #call removeCookiesFromAll;
+    call removeCookiesFromStaticsRx;
+    
+    call cacheAlwaysWWW;
+    call cacheAlwaysScripts;
+    call cacheAlwaysImages;
+    call cacheAlwaysMultimedia;
+    call cacheAlwaysXML;
+    
+    return (lookup);
 }
 
 ########[ HIT ]#################################################################
@@ -58,14 +64,17 @@ sub vcl_fetch {
     if (beresp.ttl <= 0s ||
         beresp.http.Set-Cookie ||
         beresp.http.Vary == "*") {
-    /*
-     * Mark as "Hit-For-Pass" for the next 2 minutes
-     */
-    set beresp.ttl = 120 s;
-    return (hit_for_pass);
+        /*
+        * Mark as "Hit-For-Pass" for the next 2 minutes
+        */
+        set beresp.ttl = 120 s;
+        return (hit_for_pass);
     }
     call removeCookiesFromStaticsTx;
-    #call handleMisRedirects;
+
+    #call saintModeOnAny;
+    call saintModeOnServerInternalError;
+    call saintModeOnServiceUnavailable;
     
     return (deliver);
 }
@@ -118,7 +127,7 @@ sub vcl_hash {
     }
     call hashCookieAuth;
     call hashCompressClients;
-    
+
     return (hash);
 }
 
