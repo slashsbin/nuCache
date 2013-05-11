@@ -1,0 +1,4 @@
+rename default.vcl > default.vcl.backup
+
+varnishd:
+    varnish.vcl
