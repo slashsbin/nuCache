@@ -7,11 +7,6 @@ include "module.d/mod_main_acl.vcl";
 include "module.d/mod_main_lib.vcl";
 
 ########[ RECV ]################################################################
-/*
- * Begin Request from c
- * Request is Parsed
- * Return: pass|pipe|lookup
- */
 sub vcl_recv {
     #call banIfAllowed;
     #call normalizeUserAgent;
@@ -38,28 +33,16 @@ sub vcl_recv {
 }
 
 ########[ HIT ]#################################################################
-/*
- * Cache hit after lookup
- * Return deliver|pass|restart
- */
 sub vcl_hit {
     return (deliver);
 }
 
 ########[ MISS ]################################################################
-/*
- * Cache miss after lookup
- * Return fetch|pass
- */
 sub vcl_miss {
     return (fetch);
 }
 
 ########[ FETCH ]###############################################################
-/*
- * Fetched from b
- * Return deliver|hit_for_pass|restart
- */
 sub vcl_fetch {
     if (beresp.ttl <= 0s ||
         beresp.http.Set-Cookie ||
@@ -80,28 +63,16 @@ sub vcl_fetch {
 }
 
 ########[ DELIVER ]#############################################################
-/*
- * Before delivering cache obj to c
- * Return deliver|restart
- */
 sub vcl_deliver {
     return (deliver);
 }
 
 ########[ PASS ]################################################################
-/**
- * Enter pass Mode
- * Return pass|restart
- */
 sub vcl_pass {
     return (pass);
 }
 
 ########[ PIPE ]################################################################
-/**
- * Enter pipe Mode
- * Return: pipe
- */
 sub vcl_pipe {
     # Note that only the first request to the backend will have
     # X-Forwarded-For set.  If you use X-Forwarded-For and want to
@@ -114,10 +85,6 @@ sub vcl_pipe {
 }
 
 ########[ HASH ]################################################################
-/*
- * hash_data()
- * Return hash
- */
 sub vcl_hash {
     hash_data(req.url);
     if (req.http.host) {
