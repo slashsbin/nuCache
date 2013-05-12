@@ -24,3 +24,4 @@ include "module.d/mod_customError.vcl";
 # Main/Core Modules #
 #####################
 include "module.d/mod_main.vcl";
+#include "module.d/mod_default.vcl";
