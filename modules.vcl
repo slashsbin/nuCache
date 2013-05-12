@@ -6,11 +6,11 @@ import std;
 ###################
 # General Modules #
 ###################
+include "module.d/mod_customError.vcl";
 #include "module.d/mod_shortCircuit.vcl";
 #include "module.d/mod_shortCircuit_trigger.vcl";
 #include "module.d/mod_test.vcl";
 #include "module.d/mod_debug.vcl";
-include "module.d/mod_customError.vcl";
 
 
 ######################
