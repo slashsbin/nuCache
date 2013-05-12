@@ -3,26 +3,47 @@
  */
 
 ########[ RECV ]################################################################
+/*
+ * Begin Request from c
+ * Request is Parsed
+ * Return: pass|pipe|lookup|error
+ */
 sub vcl_recv {
 
 }
 
 ########[ HIT ]#################################################################
+/*
+ * Cache hit after lookup
+ * Return deliver|pass|restart|error
+ */
 sub vcl_hit {
 
 }
 
 ########[ MISS ]################################################################
+/*
+ * Cache miss after lookup
+ * Return fetch|pass|error
+ */
 sub vcl_miss {
 
 }
 
 ########[ FETCH ]###############################################################
+/*
+ * Fetched from b
+ * Return deliver|hit_for_pass|restart|error
+ */
 sub vcl_fetch {
 
 }
 
 ########[ DELIVER ]#############################################################
+/*
+ * Before delivering cache obj to c
+ * Return deliver|restart|error
+ */
 sub vcl_deliver {
     if( req.http.X-Varnish-Debug ) {
         set resp.http.X-Varnish-Debug-ModX = "Enabled";
@@ -30,16 +51,28 @@ sub vcl_deliver {
 }
 
 ########[ PASS ]################################################################
+/**
+ * Enter pass Mode
+ * Return pass|restart|error
+ */
 sub vcl_pass {
 
 }
 
 ########[ PIPE ]################################################################
+/**
+ * Enter pipe Mode
+ * Return: pipe|error
+ */
 sub vcl_pipe {
 
 }
 
 ########[ HASH ]################################################################
+/*
+ * hash_data()
+ * Return hash|error
+ */
 sub vcl_hash {
 
 }
