@@ -54,9 +54,13 @@ sub vcl_error {
     <div class="kv"><span class="k">TTL:</span><span class="v">"} + obj.ttl + {"</span></div>
     <div class="kv"><span class="k">LastUse:</span><span class="v">"} + obj.lastuse + {"</span></div>
     <div class="kv"><span class="k">Proto:</span><span class="v">"} + obj.proto + {"</span></div>
+    <div class="kv"><span class="k">CIP:</span><span class="v">"} + client.ip + {"</span></div>
     <div class="kv"><span class="k">GZip:</span><span class="v">"} + req.can_gzip + {"</span></div>
+        <div class="kv"><span class="k">SIP:</span><span class="v">"} + server.ip + {"</span></div>
+    <div class="kv"><span class="k">Method:</span><span class="v">"} + req.request + {"</span></div>
+    <div class="kv"><span class="k">URL:</span><span class="v">"} + req.url + {"</span></div>
     <div class="kv"><span class="k">Timestamp:</span><span class="v">"} + now + {"</span></div>
-    <div class="kv"><span class="k">Seed:</span><span class="v">"} + std.random(0,1000) + {"</span></div>
+    <div class="kv"><span class="k">Seed:</span><span class="v">"} + std.random(10000,100000000) + {"</span></div>
     </div>
     
     <hr />
