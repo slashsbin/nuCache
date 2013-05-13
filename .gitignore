@@ -32,3 +32,8 @@ local.properties
 .*
 !.gitignore
 *~
+
+#### Varnish ####
+secret
+agent.conf
+default.vcl.backup
