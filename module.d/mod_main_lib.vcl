@@ -198,6 +198,39 @@ sub normalizeAcceptEncoding {
 }
 
 /*
+ * Hit for Pass If Has Cookie Header
+ */
+sub hitPassIfHasCookie {
+    if (beresp.ttl <= 0s ||
+        beresp.http.Set-Cookie ||
+        beresp.http.Vary == "*") {
+        /*
+        * Mark as "Hit-For-Pass" for the next 2 minutes
+        */
+        set beresp.ttl = 120 s;
+        return (hit_for_pass);
+    }
+}
+
+/*
+ * Hash URL
+ */
+sub hashUrl {
+    hash_data(req.url);
+}
+
+/*
+ * Hash Server Info: HTTP Host/Server IP
+ */
+sub hashServerInfo {
+    if (req.http.host) {
+        hash_data(req.http.host);
+    } else {
+        hash_data(server.ip);
+    }
+}
+
+/*
  * Hash cookie for object with auth
  */
 sub hashCookieAuth {

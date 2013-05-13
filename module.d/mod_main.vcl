@@ -1,6 +1,7 @@
 /*
  * Module Main
- * Overrides Default Varnish Module!
+ *
+ * Overrides Default Varnish-Cache Conf file, See mod_default.
  */
  
 include "module.d/mod_main_acl.vcl";
@@ -44,20 +45,13 @@ sub vcl_miss {
 
 ########[ FETCH ]###############################################################
 sub vcl_fetch {
-    if (beresp.ttl <= 0s ||
-        beresp.http.Set-Cookie ||
-        beresp.http.Vary == "*") {
-        /*
-        * Mark as "Hit-For-Pass" for the next 2 minutes
-        */
-        set beresp.ttl = 120 s;
-        return (hit_for_pass);
-    }
     call removeCookiesFromStaticsTx;
 
     #call saintModeOnAny;
     call saintModeOnServerInternalError;
     call saintModeOnServiceUnavailable;
+
+    call hitPassIfHasCookie;
     
     return (deliver);
 }
@@ -74,24 +68,14 @@ sub vcl_pass {
 
 ########[ PIPE ]################################################################
 sub vcl_pipe {
-    # Note that only the first request to the backend will have
-    # X-Forwarded-For set.  If you use X-Forwarded-For and want to
-    # have it set for all requests, make sure to have:
-    # set bereq.http.connection = "close";
-    # here.  It is not set by default as it might break some broken web
-    # applications, like IIS with NTLM authentication.
-    
     return (pipe);
 }
 
 ########[ HASH ]################################################################
 sub vcl_hash {
-    hash_data(req.url);
-    if (req.http.host) {
-        hash_data(req.http.host);
-    } else {
-        hash_data(server.ip);
-    }
+    call hashUrl;
+    call hashServerInfo;
+    
     call hashCookieAuth;
     call hashCompressClients;
 
