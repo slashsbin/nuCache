@@ -19,27 +19,30 @@ sub vcl_error {
       '|.|   '|.      . .|' ||  ||       ||  ||  ||     
        '|     ''|....'  '|..'|'  '|...' .||. ||.  '|...'
     
-    Varnish-Cache via vCache v$Id$
+    Varnish-Cache via nuCache v$Id$
 
 -->
 <html>
 <head>
-    <title>vCache :: "} + obj.status + " " + obj.response + {"</title>
+    <title>nuCache :: "} + obj.status + " " + obj.response + {"</title>
     <style>
-        * { font-family: monospace; transition: color 0.5s, background-color 1s; margin: 0; padding: 0; }
+        * { transition: color 0.5s, background-color 1s; margin: 0; padding: 0; }
+        body { font-family: monospace; font-size: 16pt; }
+        .symbol { font-family: serif; font-weight: bold; }
         h1 { padding: 20px; font-size: 26pt; background-color: #000; color: #FFF; }
         h1 .symbol { color: #FFF; font-size: 40pt; }
         h1:hover .symbol { color: purple; }
         .colorBar { height: 10px; }
         #colorBar1 { background-color: #333; } #colorBar2 { background-color: #666; } #colorBar3 { background-color: #999; } #colorBar4 { background-color: #CCC; }
         .colorBar:hover { background-color: purple !important; }
-        #kvz { padding: 40px; font-size: 16pt; }
+        #kvz, #errorMsg { padding: 40px; }
+        #errorMsg:hover .symbol { color: purple !important; }
         #kvz .kv span { text-shadow: 0px 1px 0px #CCC; }
         #kvz .k { color: #444; }
         #kvz .v { margin: 0 10px; }
         #kvz .kv:hover .k { color: purple; }
         #footer { float: right; margin: 0 40px; }
-        #footer:hover .symbol { color: purple; }
+        #footer:hover .symbol { color: purple !important; }
     </style>
 </head>
 <body>
@@ -47,7 +50,15 @@ sub vcl_error {
     
     <div class="colorBar" id="colorBar1"></div><div class="colorBar" id="colorBar2"></div><div class="colorBar" id="colorBar3"></div><div class="colorBar" id="colorBar4"></div>
     
+    <p id="errorMsg">
+    <b>Failed to serve the Request</b>,<br />
+    <span class="symbol">&nu;</span>Cache Connection attempt to BE::"} + req.backend + {" was UnSuccessful with reply NET::HTTP:"} + obj.status + {".
+    Please try again in few minutes.
+    </p>
+    
+    <hr />
     <div id="kvz">
+    <h3>Guru Meditation</h3>
     <div class="kv"><span class="k">GuruMeditationXID:</span><span class="v">"} + req.xid + {"</span></div>
     <div class="kv"><span class="k">Response:</span><span class="v">"} + obj.response + {"</span></div>
     <div class="kv"><span class="k">Restart:</span><span class="v">"} + req.restarts + {"</span></div>
@@ -56,7 +67,7 @@ sub vcl_error {
     <div class="kv"><span class="k">Proto:</span><span class="v">"} + obj.proto + {"</span></div>
     <div class="kv"><span class="k">CIP:</span><span class="v">"} + client.ip + {"</span></div>
     <div class="kv"><span class="k">GZip:</span><span class="v">"} + req.can_gzip + {"</span></div>
-        <div class="kv"><span class="k">SIP:</span><span class="v">"} + server.ip + {"</span></div>
+    <div class="kv"><span class="k">SIP:</span><span class="v">"} + server.ip + {"</span></div>
     <div class="kv"><span class="k">Method:</span><span class="v">"} + req.request + {"</span></div>
     <div class="kv"><span class="k">URL:</span><span class="v">"} + req.url + {"</span></div>
     <div class="kv"><span class="k">Timestamp:</span><span class="v">"} + now + {"</span></div>
