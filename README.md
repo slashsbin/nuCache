@@ -12,15 +12,15 @@ Features
 --------
 * Multi-Backends
 * Modules
-    * Main                      General Purpose WWW & Server-Side Language InDependant, Core nuCache Module
-    * Custom Error              A Custom Error Page for Debugging
+    * *Main*:                   General Purpose WWW & Server-Side Language InDependant, Core nuCache Module
+    * *Custom Error*:           A Custom Error Page for Debugging
     * PHP (TODO)
     * Drupal (TODO)
-    * ShortCicuit               Varnish Fuze: Pipes All Requests to BackEnd when Enabled
-    * ShortCicuit-Trigger       Varnish Fuze Trigger: Pipes All Requests to BackEnd when `VARNISH_FUZE` QueryString is Set
-    * Default                   Default Built-in Varnish-Cache VCL
-    * Debug                     Sets Additional Information HTTP Headers for Debug Purposes
-    * Test                      Empty Mdoule for Writing Custom Tests
+    * *ShortCicuit*:            Varnish Fuze: Pipes All Requests to BackEnd when Enabled
+    * *ShortCicuit-Trigger*:    Varnish Fuze Trigger: Pipes All Requests to BackEnd when `VARNISH_FUZE` QueryString is Set
+    * *Default*:                Default Built-in Varnish-Cache VCL
+    * *Debug*:                  Sets Additional Information HTTP Headers for Debug Purposes
+    * *Test*:                   Empty Mdoule for Writing Custom Tests
 
 Requirements
 ------------
@@ -49,7 +49,7 @@ See INSTALL Text file for more Information & details.
 
 License
 -------
-[MIT License]<http://slashsbin.mit-license.org/>
+[MIT License](http://slashsbin.mit-license.org/)
 
 
 
