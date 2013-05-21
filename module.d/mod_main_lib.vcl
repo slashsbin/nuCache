@@ -186,6 +186,8 @@ sub normalizeAcceptEncoding {
             /* we do not need Accept-Encoding for these ones */
             /* don't try to compress already compressed files */
             remove req.http.Accept-Encoding;
+        } elsif (req.http.User-Agent ~ "MSIE 6") {
+            unset req.http.Accept-Encoding;
         } elsif (req.http.Accept-Encoding ~ "gzip") {
             set req.http.Accept-Encoding = "gzip";
         } elsif (req.http.Accept-Encoding ~ "deflate") {
