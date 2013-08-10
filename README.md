@@ -1,5 +1,7 @@
 &nu;Cache
 =========
+[![Project Status](https://stillmaintained.com/slashsBin/nuCache.png)](https://stillmaintained.com/slashsBin/nuCache)
+
 `/sBin/nuCache v1.0.0-dev`
 
 Overview
