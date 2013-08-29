@@ -1,6 +1,7 @@
 &nu;Cache
 =========
-[![Project Status](https://stillmaintained.com/slashsBin/nuCache.png)](https://stillmaintained.com/slashsBin/nuCache)
+[![Project Status](http://stillmaintained.com/slashsBin/nuCache.png)](http://stillmaintained.com/slashsBin/nuCache) <script type="text/javascript" src="http://www.ohloh.net/p/652070/widgets/project_thin_badge.js"></script>
+
 
 `/sBin/nuCache v1.0.0-dev`
 
