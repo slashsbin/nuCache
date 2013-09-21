@@ -79,17 +79,15 @@ VARNISH_PARAMZ+=" -p vcc_err_unref=off"
 VARNISH_PARAMZ+=" -p saintmode_threshold=40"
 VARNISH_PARAMZ+=" -p vcl_dir="$(dirname ${VARNISH_VCL_CONF})
 # RunTime DEBUG Parameters:
-VARNISH_PARAMZ+=" -p vcl_trace=on"
+#VARNISH_PARAMZ+=" -p vcl_trace=on"
 
 # DAEMON_OPTS is used by the init script.
 # If you add or remove options, make sure you update this section, too.
 DAEMON_OPTS="-a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} \
-             # Debug Mode
-             #-d \
              -f ${VARNISH_VCL_CONF} \
              -n ${INSTANCE} \
              -S ${VARNISH_SECRET_FILE} \
-             -s ${VARNISH_STORAGE}
+             -s ${VARNISH_STORAGE} \
              -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} \
              -t ${VARNISH_TTL} \
              -u ${VARNISH_USER} -g ${VARNISH_GROUP} \
