@@ -39,7 +39,6 @@ Index
 * `INSTALL`           Installation Manual
 * `VERSION`           nuCache Versoin
 * `README.md`         Readme, You are here!
-* `LICENSE`           MIT License
 
 Installation
 ------------
@@ -52,7 +51,8 @@ See INSTALL Text file for more Information & details.
 
 License
 -------
-[MIT License](http://slashsbin.mit-license.org/)
+nuCache is licensed under the [MIT License](http://slashsbin.mit-license.org/).
+
 
 
 
