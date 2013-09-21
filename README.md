@@ -35,6 +35,8 @@ Index
 * `backends.vcl`      Enable/Disable Backends
 * `module.d/`         Modules definition files
 * `modules.vcl`       Enable/Disable Modules
+* `etc/`              ETC files
+* `etc/daemon`        VarnishD Daemon Config
 * `nuCache.vcl`       Bootstarp File
 * `INSTALL`           Installation Manual
 * `VERSION`           nuCache Versoin
@@ -42,9 +44,9 @@ Index
 
 Installation
 ------------
-1. Copy files to your Varnish conf folder
-2. [OPTIONAL] Keep & Rename Default Varnish conf file(default.vcl)
-3. Set VarnishD conf file to nuCache.vcl
+1. Keep & Rename Default Varnish conf file(`default.vcl`)
+2. Copy files to your Varnish conf folder
+3. Use `etc/daemon` as VarnishD Daemon Config file
 4. Enjoy!
 
 See INSTALL Text file for more Information & details.
