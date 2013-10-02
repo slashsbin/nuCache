@@ -31,3 +31,17 @@ sub denyIfRxCron {
 		error 403 "Forbidden.";
 	}
 }
+
+/**
+ * Do NOT cache any Drupal specific Paths
+ */
+sub passIfDrupalish {
+	if (req.url ~ "^/status\.php$" ||
+		req.url ~ "^/update\.php$" ||
+		req.url ~ "^/admin/build/features" ||
+		req.url ~ "^/info/.*$" ||
+      	req.url ~ "^/flag/.*$" ||
+      	req.url ~ "^.*/ajax/.*$")
+    return (pass);
+  }
+}

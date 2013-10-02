@@ -11,6 +11,7 @@ sub vcl_recv {
     call removeCookiesFromStaticsRxKeepDrupals;
 
 	call denyIfRxCron;
+	call passIfDrupalish;
 }
 
 ########[ HIT ]#################################################################
