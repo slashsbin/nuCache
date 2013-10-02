@@ -7,11 +7,12 @@ include "module.d/mod_drupal_lib.vcl";
 
 ########[ RECV ]################################################################
 sub vcl_recv {
-    # Conflicts with MOD_Main::removeCookiesFromStaticsRx
-    call removeCookiesFromStaticsRxKeepDrupals;
-
 	call denyIfRxCron;
+	call pipeIfDrupalStream;
 	call passIfDrupalish;
+    
+	# Conflicts with MOD_Main::removeCookiesFromStaticsRx
+    call removeCookiesFromStaticsRxKeepDrupals;
 }
 
 ########[ HIT ]#################################################################
