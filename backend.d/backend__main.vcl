@@ -23,5 +23,8 @@ probe rawhealthcheck_main {
 backend main {
     .host = "127.0.0.1";
     .port = "8080";
+    .connect_timeout = 0.7s;
+    .first_byte_timeout = 60s;
+    .between_bytes_timeout = 60s;
     .probe = rawhealthcheck_main;
 }
