@@ -317,3 +317,14 @@ sub saintModeOnAny {
     set beresp.grace = 5m;
 }
 
+/*
+ * Remove all tracking cookies
+ */
+sub removeTrackingCookies {
+	if (req.http.Cookie) {
+    	set req.http.Cookie = regsuball(req.http.Cookie, "(^|; ) *__utm.=[^;]+;? *", "\1");
+	    if (req.http.Cookie == "") {
+	        remove req.http.Cookie;
+	    }
+	}
+}

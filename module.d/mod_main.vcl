@@ -23,6 +23,7 @@ sub vcl_recv {
     
     #call removeCookiesFromAll;
     call removeCookiesFromStaticsRx;
+	call removeTrackingCookies;
     
     call cacheAlwaysWWW;
     call cacheAlwaysScripts;
