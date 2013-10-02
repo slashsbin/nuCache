@@ -17,5 +17,8 @@ sub removeCookiesFromStaticsTxKeepDrupals {
     if (req.url !~ "^/system/files/private/.*$" &&
         req.url ~ "^/[^?]+\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|mp[34]|pdf|png|rar|rtf|swf|tar|tgz|txt|wav|woff|xml|zip)(\?.*)?$") {
         unset beresp.http.set-cookie;
+		unset beresp.http.cookie;
     }
+	# A TTL of 30 minutes
+	set beresp.ttl = 1800s;
 }
