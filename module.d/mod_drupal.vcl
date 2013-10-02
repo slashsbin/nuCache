@@ -2,12 +2,15 @@
  * Module Drupal
  */
  
+include "module.d/mod_drupal_acl.vcl";
 include "module.d/mod_drupal_lib.vcl";
 
 ########[ RECV ]################################################################
 sub vcl_recv {
     # Conflicts with MOD_Main::removeCookiesFromStaticsRx
     call removeCookiesFromStaticsRxKeepDrupals;
+
+	call denyIfRxCron;
 }
 
 ########[ HIT ]#################################################################

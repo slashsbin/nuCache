@@ -22,3 +22,12 @@ sub removeCookiesFromStaticsTxKeepDrupals {
 	# A TTL of 30 minutes
 	set beresp.ttl = 1800s;
 }
+
+/**
+ * Block access to Drupal cron script from outsite
+ */
+sub denyIfRxCron {
+	if (req.url ~ "^/(cron|install)\.php$" && !client.ip ~ drupal_internal) {
+		error 403 "Forbidden.";
+	}
+}
