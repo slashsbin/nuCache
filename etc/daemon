@@ -64,7 +64,8 @@ VARNISH_STORAGE_FILE="/var/varnish/varnish_storage__${INSTANCE}.bin"
 
 # Cache file size: in bytes, optionally using k / M / G / T suffix,
 # or in percentage of available disk space using the % suffix.
-VARNISH_STORAGE_SIZE=2G
+VARNISH_STORAGE_SIZE=128M
+#VARNISH_STORAGE_SIZE=2G
 
 # Backend storage specification
 #VARNISH_STORAGE="file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}"
@@ -75,11 +76,11 @@ VARNISH_TTL=120
 
 # RunTime Parameters:
 VARNISH_PARAMZ=""
-VARNISH_PARAMZ+=" -p vcc_err_unref=off"
-VARNISH_PARAMZ+=" -p saintmode_threshold=40"
-VARNISH_PARAMZ+=" -p vcl_dir="$(dirname ${VARNISH_VCL_CONF})
+VARNISH_PARAMZ="${VARNISH_PARAMZ} -p vcc_err_unref=off"
+VARNISH_PARAMZ="${VARNISH_PARAMZ} -p saintmode_threshold=40"
+VARNISH_PARAMZ="${VARNISH_PARAMZ} -p vcl_dir="$(dirname ${VARNISH_VCL_CONF})
 # RunTime DEBUG Parameters:
-#VARNISH_PARAMZ+=" -p vcl_trace=on"
+#VARNISH_PARAMZ="${VARNISH_PARAMZ} -p vcl_trace=on"
 
 # DAEMON_OPTS is used by the init script.
 # If you add or remove options, make sure you update this section, too.
