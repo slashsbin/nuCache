@@ -7,6 +7,8 @@ include "module.d/mod_php_lib.vcl";
 ########[ RECV ]################################################################
 sub vcl_recv {
     call passIfIsPHP;
+
+	call removeUnnecessaryPHPCookies;
 }
 
 ########[ HIT ]#################################################################

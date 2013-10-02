@@ -13,6 +13,7 @@ sub vcl_recv {
     
 	# Conflicts with MOD_Main::removeCookiesFromStaticsRx
     call removeCookiesFromStaticsRxKeepDrupals;
+	call removeUnnecessaryDrupalishCookies;
 }
 
 ########[ HIT ]#################################################################
