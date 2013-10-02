@@ -7,6 +7,9 @@
 # 2. /usr/sbin/varnishd -f /etc/varnish/nuCache.vcl -C -n /tmp > /dev/null && echo "Syntax OK"
 #
 
+# Should we start varnishd at boot?  Set to "no" to disable.
+START=yes
+
 # Maximum number of open files (for ulimit -n)
 NFILES=131072
 
