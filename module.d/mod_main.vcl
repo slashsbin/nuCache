@@ -59,6 +59,7 @@ sub vcl_fetch {
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
+	set resp.http.Via = "nuCache v" + std.fileread("/etc/varnish/VERSION");
     return (deliver);
 }
 

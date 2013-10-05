@@ -1,13 +1,6 @@
 /*
- * Module Test
- * Just for Develop & Testing Purposes
- *
- * Keep Clean after tests
- *
- * Depends on Standard VMod
+ * Module User Custom Rules
  */
-
-#import std;
 
 ########[ RECV ]################################################################
 sub vcl_recv {
@@ -26,12 +19,14 @@ sub vcl_miss {
 
 ########[ FETCH ]###############################################################
 sub vcl_fetch {
-    
+
 }
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
-
+    if( req.http.X-Varnish-Debug ) {
+        set resp.http.X-Varnish-Debug-Mod-User = "Enabled";
+    }
 }
 
 ########[ PASS ]################################################################
@@ -46,11 +41,6 @@ sub vcl_pipe {
 
 ########[ HASH ]################################################################
 sub vcl_hash {
-
-}
-
-########[ ERROR ]###############################################################
-sub vcl_error {
 
 }
 

@@ -1,13 +1,6 @@
 /*
- * Module Test
- * Just for Develop & Testing Purposes
- *
- * Keep Clean after tests
- *
- * Depends on Standard VMod
+ * Module Security
  */
-
-#import std;
 
 ########[ RECV ]################################################################
 sub vcl_recv {
@@ -26,12 +19,17 @@ sub vcl_miss {
 
 ########[ FETCH ]###############################################################
 sub vcl_fetch {
-    
+	unset beresp.http.Server;
+	unset beresp.http.X-Powered-By;
 }
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
-
+    if( req.http.X-Varnish-Debug ) {
+        set resp.http.X-Varnish-Debug-Mod-Security = "Enabled";
+    }
+	unset resp.http.Via;
+	unset resp.http.X-Varnish;
 }
 
 ########[ PASS ]################################################################
@@ -46,11 +44,6 @@ sub vcl_pipe {
 
 ########[ HASH ]################################################################
 sub vcl_hash {
-
-}
-
-########[ ERROR ]###############################################################
-sub vcl_error {
 
 }
 

@@ -39,7 +39,7 @@ sub passIfDrupalish {
 		req.url ~ "^/admin/build/features" ||
 		req.url ~ "^/info/.*$" ||
       	req.url ~ "^/flag/.*$" ||
-      	req.url ~ "^.*/ajax/.*$")
+      	req.url ~ "^.*/ajax/.*$") {
     	return (pass);
 	}
 }
