@@ -11,8 +11,6 @@ sub vcl_recv {
 	call pipeIfDrupalStream;
 	call passIfDrupalish;
     
-	# Conflicts with MOD_Main::removeCookiesFromStaticsRx
-    call removeCookiesFromStaticsRxKeepDrupals;
 	call removeUnnecessaryDrupalishCookies;
 }
 
@@ -28,8 +26,7 @@ sub vcl_miss {
 
 ########[ FETCH ]###############################################################
 sub vcl_fetch {
-    # Conflicts with MOD_Main::removeCookiesFromStaticsTx
-    call removeCookiesFromStaticsTxKeepDrupals;
+
 }
 
 ########[ DELIVER ]#############################################################
