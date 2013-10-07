@@ -64,7 +64,7 @@ sub vcl_fetch {
     }
 	set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "}";
 	if(beresp.http.X-nuCache-Debug-Cache-Msg-magic) {
-		set beresp.http.X-nuCache-Debug-Cache-Msg = "!" + beresp.http.X-nuCache-Debug-Cache-Msg;
+		set beresp.http.X-nuCache-Debug-Cache-Msg = "!SeemsLikeMiss" + beresp.http.X-nuCache-Debug-Cache-Msg;
 	}
 	else {
 		set beresp.http.X-nuCache-Debug-Cache-Msg = "~SeemsLikeHit" + beresp.http.X-nuCache-Debug-Cache-Msg;
