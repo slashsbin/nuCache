@@ -43,15 +43,33 @@ sub vcl_fetch {
      * Cache Message
      * Reason of Cache HIT/MISS
      */
+	set beresp.http.X-nuCache-Debug-Cache-Msg = "{";
     if (beresp.ttl <= 0s) {
-        set beresp.http.X-nuCache-Debug-Cache-Msg = "!NotCacheable";
-    } elsif (req.http.Cookie) {
-        set beresp.http.X-nuCache-Debug-Cache-Msg = "!GotCookie";
-    } elsif (beresp.http.Cache-Control ~ "private") {
-        set beresp.http.X-nuCache-Debug-Cache-Msg = "!Private";
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 1;
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "!NotCacheable:WillDie";
     } else {
-        set beresp.http.X-nuCache-Debug-Cache-Msg = "~SeemsLikeHit";
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "~Cacheable";
+	}
+	if (req.http.Cookie) {
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 1;
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|!GotCookie";
+    } else {
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|~NoFood";
+	}
+	if (beresp.http.Cache-Control ~ "private") {
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 1;
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|!Private";
+    } else {
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|~Public";
     }
+	set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "}";
+	if(beresp.http.X-nuCache-Debug-Cache-Msg-magic) {
+		set beresp.http.X-nuCache-Debug-Cache-Msg = "!" + beresp.http.X-nuCache-Debug-Cache-Msg;
+	}
+	else {
+		set beresp.http.X-nuCache-Debug-Cache-Msg = "~SeemsLikeHit" + beresp.http.X-nuCache-Debug-Cache-Msg;
+	}
+	unset beresp.http.X-nuCache-Debug-Cache-Msg-magic;
     
     # Backend Response HTTP Status Code
     set beresp.http.X-nuCache-Debug-B-Code = beresp.status;
