@@ -28,8 +28,8 @@ sub vcl_fetch {
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
-    if( req.http.X-Varnish-Debug ) {
-        set resp.http.X-Varnish-Debug-Mod-PHP = "Enabled";
+    if( req.http.X-nuCache-Debug ) {
+        set resp.http.X-nuCache-Debug-Mod-PHP = "Enabled";
     }
 }
 

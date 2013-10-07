@@ -19,7 +19,7 @@ sub vcl_error {
       '|.|   '|.      . .|' ||  ||       ||  ||  ||     
        '|     ''|....'  '|..'|'  '|...' .||. ||.  '|...'
     
-    Varnish-Cache via nuCache v"} + std.fileread("/etc/varnish/VERSION") + {"
+    Powered By nuCache v"} + std.fileread("/etc/varnish/VERSION") + {" & <3
 -->
 <html>
 <head>

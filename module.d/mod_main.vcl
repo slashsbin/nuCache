@@ -59,12 +59,8 @@ sub vcl_fetch {
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
-	if(resp.http.Via) {
-		set resp.http.Via = resp.http.Via + ", " + resp.proto + " nuCache";
-	} else {
-		set resp.http.Via = resp.proto + " nuCache";
-	}
-    return (deliver);
+    call nuCacheInfo;
+	return (deliver);
 }
 
 ########[ PASS ]################################################################
