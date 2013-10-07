@@ -75,7 +75,7 @@ VARNISH_STORAGE_SIZE=128M
 VARNISH_STORAGE="malloc,${VARNISH_STORAGE_SIZE}"
 
 # Default TTL used when the backend does not specify one
-VARNISH_TTL=120
+VARNISH_TTL=1800
 
 # RunTime Parameters:
 VARNISH_PARAMZ=""
