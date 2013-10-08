@@ -50,9 +50,9 @@ sub removeUnnecessaryDrupalishCookies {
 	    /* Remove any '; ' at the start or the end of the header */
 	    set req.http.Cookie = regsuball(req.http.Cookie, "^[; ]+|[; ]+$", "");
 
-	    if (req.http.Cookie == "") {
-			/* If there are no remaining cookies, remove the cookie header. */
-	      	unset req.http.Cookie;
-	    }
+		if (req.http.Cookie ~ "^[\s;]*$") {
+			unset req.http.Cookie;
+		}
+
 	}
 }

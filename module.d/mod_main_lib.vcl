@@ -318,15 +318,24 @@ sub saintModeOnAny {
 }
 
 /*
+ * Remove the Cookie header if it's Empty
+ */
+sub removeEmptyCookie {
+	if(req.http.cookie) {
+		if (req.http.Cookie ~ "^[\s;]*$") {
+			unset req.http.Cookie;
+		}
+	}
+}
+
+/*
  * Remove all tracking cookies
  */
 sub removeTrackingCookies {
 	if (req.http.Cookie) {
     	set req.http.Cookie = regsuball(req.http.Cookie, "(^|; ) *__utm.=[^;]+;? *", "\1");
-	    if (req.http.Cookie == "") {
-	        remove req.http.Cookie;
-	    }
 	}
+	call removeEmptyCookie;
 }
 
 /*

@@ -6,6 +6,12 @@
 
 #import std;
 
+########[ RECV ]################################################################
+sub vcl_recv {
+	# Test Error Page
+	#error 503;
+}
+
 ########[ ERROR ]###############################################################
 sub vcl_error {
     set obj.http.Content-Type = "text/html; charset=utf-8";
