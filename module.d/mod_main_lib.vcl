@@ -82,7 +82,7 @@ sub removeCookiesFromAll {
  * and normalizes the request URL
  */
 sub removeCookiesFromStaticsRx {
-	if (req.url ~ "^/[^?]+\.(jpeg|jpg|png|gif|ico|js|css|txt|gz|zip|lzma|bz2|tgz|tbz|html|htm)(\?.*|)$") {
+	if (req.url ~ "^/[^?]+\.(jpeg|jpg|png|gif|bmp|tiff|tif|tga|wmf|img|iso|ico|js|less|css|woff|ttf|txt|gz|zip|lzma|bz2|gz|tgz|tbz|rar|7z|tar|html|htm|xml|doc|docx|rtf|xls|odt|txt|eot|svg|swf|m4a|ogg|mov|avi|wmv|flv|mp[34]|wav|pdf)(\?.*)?$") {
         unset req.http.cookie;
         set req.url = regsub(req.url, "\?.*$", "");
     }
@@ -93,7 +93,7 @@ sub removeCookiesFromStaticsRx {
  * and Sets a High TTL for them
  */
 sub removeCookiesFromStaticsTx {
-    if (req.url ~ "^/[^?]+\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|mp[34]|pdf|png|rar|rtf|swf|tar|tgz|txt|wav|woff|xml|zip)(\?.*)?$") {
+	if (req.url ~ "^/[^?]+\.(jpeg|jpg|png|gif|bmp|tiff|tif|tga|wmf|img|iso|ico|js|less|css|woff|ttf|txt|gz|zip|lzma|bz2|gz|tgz|tbz|rar|7z|tar|html|htm|xml|doc|docx|rtf|xls|odt|txt|eot|svg|swf|m4a|ogg|mov|avi|wmv|flv|mp[34]|wav|pdf)(\?.*)?$") {
         unset beresp.http.set-cookie;
 		unset beresp.http.cookie;
     }
@@ -105,7 +105,7 @@ sub removeCookiesFromStaticsTx {
  * Always Cache Static WWW files
  */
 sub cacheAlwaysWWW {
-    if( req.request == "GET" && req.url ~ "\.(css|html|htm)$" ) {
+    if( req.request == "GET" && req.url ~ "\.(css|less|html|htm)$" ) {
         return (lookup);
     }
 }
