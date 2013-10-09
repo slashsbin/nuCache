@@ -14,6 +14,9 @@ sub vcl_recv {
     
     # Trace RECV
     set req.http.X-nuCache-Debug-Trace-RCV = std.toupper(req.proto);
+	
+	# Trace URL Changes
+    set req.http.X-nuCache-Debug-URL-RCV = req.url;
 }
 
 ########[ HIT ]#################################################################
@@ -32,6 +35,9 @@ sub vcl_miss {
 sub vcl_fetch {
     # Trace FETCH
     set beresp.http.X-nuCache-Debug-Trace-FCH = std.toupper(bereq.proto);
+
+	# Trace URL Changes
+	set beresp.http.X-nuCache-Debug-URL-FCH = req.url;
 
     /*
      * Legend:
@@ -86,6 +92,9 @@ sub vcl_deliver {
     # Trace DELIVER
     set resp.http.X-nuCache-Debug-Trace-DLV = std.toupper(resp.proto);
 
+	# Trace URL Changes
+    set resp.http.X-nuCache-Debug-URL-DLV = req.url;
+
     # Backend Response Recieve Date/Time
     set resp.http.X-nuCache-Debug-B-Reply = now;
 
@@ -127,12 +136,18 @@ sub vcl_deliver {
 sub vcl_pass {
     # Trace PASS
     set bereq.http.X-nuCache-Debug-Trace-PSS = std.toupper(req.proto);
+
+	# Trace URL Changes
+    set bereq.http.X-nuCache-Debug-URL-PSS = req.url;
 }
 
 ########[ PIPE ]################################################################
 sub vcl_pipe {
     # Trace Pipe
     set bereq.http.X-nuCache-Debug-Trace-PIP = std.toupper(req.proto);
+
+	# Trace URL Changes
+    set bereq.http.X-nuCache-Debug-URL-PIP = req.url;
 }
 
 ########[ HASH ]################################################################
