@@ -20,16 +20,20 @@ sub vcl_recv {
     call pipeIfNonRFC2616;
     call passIfNonIdempotent;
     call passPipeIfAuthorized;
+
+	# Conflicts with ModDrupal::removeQueryStringFromStaticsRxKeepDrupalish
+	call removeQueryStringFromStaticsRx;
     
     #call removeCookiesFromAll;
     call removeCookiesFromStaticsRx;
 	call removeTrackingCookies;
-    
-    call cacheAlwaysWWW;
-    call cacheAlwaysScripts;
-    call cacheAlwaysImages;
-    call cacheAlwaysMultimedia;
-    call cacheAlwaysXML;
+
+	call cacheAlwaysAll;    
+    #call cacheAlwaysWWW;
+    #call cacheAlwaysScripts;
+    #call cacheAlwaysImages;
+    #call cacheAlwaysMultimedia;
+    #call cacheAlwaysXML;
     
     return (lookup);
 }
