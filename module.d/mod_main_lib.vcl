@@ -68,6 +68,15 @@ sub passPipeIfAuthorized {
     }
 }
 
+/*
+ * Remove QueryString from static files request
+ */
+sub removeQueryStringFromStaticsRx {
+	if (req.url ~ "^/[^?]+\.(jpeg|jpg|png|gif|bmp|tiff|tif|tga|wmf|img|iso|ico|js|less|css|woff|ttf|txt|gz|zip|lzma|bz2|gz|tgz|tbz|rar|7z|tar|html|htm|xml|doc|docx|rtf|xls|odt|txt|eot|svg|swf|m4a|ogg|mov|avi|wmv|flv|mp[34]|wav|pdf)(\?.*)?$") {
+		set req.url = regsub(req.url, "\?.*$", "");
+	}
+}
+
 /**
  * Removes all cookies from the user request
  */
@@ -79,12 +88,10 @@ sub removeCookiesFromAll {
 
 /**
  * Removes cookies from static files request
- * and normalizes the request URL
  */
 sub removeCookiesFromStaticsRx {
 	if (req.url ~ "^/[^?]+\.(jpeg|jpg|png|gif|bmp|tiff|tif|tga|wmf|img|iso|ico|js|less|css|woff|ttf|txt|gz|zip|lzma|bz2|gz|tgz|tbz|rar|7z|tar|html|htm|xml|doc|docx|rtf|xls|odt|txt|eot|svg|swf|m4a|ogg|mov|avi|wmv|flv|mp[34]|wav|pdf)(\?.*)?$") {
         unset req.http.cookie;
-        set req.url = regsub(req.url, "\?.*$", "");
     }
 }
 
@@ -99,6 +106,17 @@ sub removeCookiesFromStaticsTx {
     }
 	# A TTL of 30 minutes
 	set beresp.ttl = 1800s;
+}
+
+/*
+ * Always Cache All Static files
+ */
+sub cacheAlwaysAll {
+	call cacheAlwaysWWW;
+	call cacheAlwaysScripts;
+	call cacheAlwaysImages;
+	call cacheAlwaysMultimedia;
+	call cacheAlwaysXML;
 }
 
 /*

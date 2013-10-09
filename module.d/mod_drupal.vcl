@@ -10,7 +10,9 @@ sub vcl_recv {
 	call denyIfRxCron;
 	call pipeIfDrupalStream;
 	call passIfDrupalish;
-    
+
+	# Conflicts with ModMain::removeQueryStringFromStaticsRx
+	call removeQueryStringFromStaticsRxKeepDrupalish;
 	call removeUnnecessaryDrupalishCookies;
 }
 

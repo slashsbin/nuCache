@@ -56,3 +56,14 @@ sub removeUnnecessaryDrupalishCookies {
 
 	}
 }
+
+/*
+ * Remove QueryString from URL
+ * Keep Drupalish ones
+ */
+sub removeQueryStringFromStaticsRxKeepDrupalish {
+	if (req.url ~ "^/[^?]+\.(jpeg|jpg|png|gif|bmp|tiff|tif|tga|wmf|img|iso|ico|js|less|css|woff|ttf|txt|gz|zip|lzma|bz2|gz|tgz|tbz|rar|7z|tar|html|htm|xml|doc|docx|rtf|xls|odt|txt|eot|svg|swf|m4a|ogg|mov|avi|wmv|flv|mp[34]|wav|pdf)(\?.*)?$") {
+		# Keep "itok"
+		req.url = regsuball(req.url, "\?(.*)(?:itok)=[^&]+(.*)", "");
+	}
+}
