@@ -77,6 +77,15 @@ sub removeQueryStringFromStaticsRx {
 	}
 }
 
+/*
+ * Pass if has Cookie Header
+ */
+sub passIfGotCookie {
+	if(req.http.Cookie) {
+		return (pass);
+	}
+}
+
 /**
  * Removes all cookies from the user request
  */

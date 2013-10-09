@@ -34,6 +34,8 @@ sub vcl_recv {
     #call cacheAlwaysImages;
     #call cacheAlwaysMultimedia;
     #call cacheAlwaysXML;
+
+	call passIfGotCookie;
     
     return (lookup);
 }
