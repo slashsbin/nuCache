@@ -17,6 +17,9 @@ sub vcl_recv {
 	
 	# Trace URL Changes
     set req.http.X-nuCache-Debug-URL-RCV = req.url;
+
+	# Trace Cookies
+	set req.http.X-nuCache-Debug-Cookies-RCV = req.http.Cookie;
 }
 
 ########[ HIT ]#################################################################
@@ -38,6 +41,15 @@ sub vcl_fetch {
 
 	# Trace URL Changes
 	set beresp.http.X-nuCache-Debug-URL-FCH = req.url;
+	if( req.http.X-nuCache-Debug-URL-PSS ) {
+		set beresp.http.X-nuCache-Debug-URL-PSS = req.http.X-nuCache-Debug-URL-PSS;
+	}
+
+	# Trace Cookies
+    set beresp.http.X-nuCache-Debug-Cookies-FCH = req.http.Cookie;
+	if( req.http.X-nuCache-Debug-Cookies-PSS ) {
+    	set beresp.http.X-nuCache-Debug-Cookies-PSS = req.http.X-nuCache-Debug-Cookies-PSS;
+	}
 
     /*
      * Legend:
@@ -94,6 +106,12 @@ sub vcl_deliver {
 
 	# Trace URL Changes
     set resp.http.X-nuCache-Debug-URL-DLV = req.url;
+	set resp.http.X-nuCache-Debug-URL-RCV = req.http.X-nuCache-Debug-URL-RCV;
+
+	# Trace Cookies
+    set resp.http.X-nuCache-Debug-Cookies-DLV = req.http.Cookie;
+    set resp.http.X-nuCache-Debug-Cookies-RCV = req.http.X-nuCache-Debug-Cookies-RCV;
+
 
     # Backend Response Recieve Date/Time
     set resp.http.X-nuCache-Debug-B-Reply = now;
@@ -139,6 +157,10 @@ sub vcl_pass {
 
 	# Trace URL Changes
     set bereq.http.X-nuCache-Debug-URL-PSS = req.url;
+
+	# Trace Cookies
+    set bereq.http.X-nuCache-Debug-Cookies-PSS = req.http.Cookie;
+
 }
 
 ########[ PIPE ]################################################################
