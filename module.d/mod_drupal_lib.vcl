@@ -1,8 +1,8 @@
 /**
- * Block access to Drupal cron script from outsite
+ * Block access to Drupal admin script from outsite
  */
-sub denyIfRxCron {
-	if (req.url ~ "^/(cron|install)\.php$" && !client.ip ~ drupal_internal) {
+sub denyIfRxDrupalScript {
+	if (req.url ~ "^/(cron|install|update|xmlrpc)\.php$" && !client.ip ~ drupal_internal) {
 		error 403 "Forbidden.";
 	}
 }

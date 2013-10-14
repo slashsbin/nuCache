@@ -7,7 +7,7 @@ include "module.d/mod_drupal_lib.vcl";
 
 ########[ RECV ]################################################################
 sub vcl_recv {
-	call denyIfRxCron;
+	call denyIfRxDrupalScripts;
 	call pipeIfDrupalStream;
 	call passIfDrupalish;
 
