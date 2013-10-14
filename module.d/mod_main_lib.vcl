@@ -370,8 +370,8 @@ sub removeTrackingCookies {
  */
 sub nuCacheInfo {
 	if(resp.http.X-Powered-By) {
-		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; nuCache v" + std.fileread("/etc/varnish/VERSION") + " & <3";
+		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; <3 & nuCache v" + std.fileread("/etc/varnish/VERSION");
 	} else {
-		set resp.http.X-Powered-By = "nuCache v" + std.fileread("/etc/varnish/VERSION") + " & <3";
+		set resp.http.X-Powered-By = "<3 & nuCache v" + std.fileread("/etc/varnish/VERSION");
 	}
 }

@@ -14,6 +14,7 @@ sub vcl_recv {
     
     # Trace RECV
     set req.http.X-nuCache-Debug-Trace-RCV = std.toupper(req.proto);
+	std.log("====[ nuCache::Debug:RCV ]======================================================");
 	
 	# Trace URL Changes
     set req.http.X-nuCache-Debug-URL-RCV = req.url;
@@ -26,18 +27,21 @@ sub vcl_recv {
 sub vcl_hit {
     # Trace HIT
     set req.http.X-nuCache-Debug-Trace-HIT = std.toupper(obj.proto);
+	std.log("====[ nuCache::Debug:HIT ]======================================================");
 }
 
 ########[ MISS ]################################################################
 sub vcl_miss {
     # Trace MISS
     set bereq.http.X-nuCache-Debug-Trace-MIS = std.toupper(bereq.proto);
+	std.log("====[ nuCache::Debug:MIS ]======================================================");
 }
 
 ########[ FETCH ]###############################################################
 sub vcl_fetch {
     # Trace FETCH
     set beresp.http.X-nuCache-Debug-Trace-FCH = std.toupper(bereq.proto);
+	std.log("====[ nuCache::Debug:FCH ]======================================================");
 
 	# Trace URL Changes
 	set beresp.http.X-nuCache-Debug-URL-FCH = req.url;
@@ -61,31 +65,41 @@ sub vcl_fetch {
      * Cache Message
      * Reason of Cache HIT/MISS
      */
+	set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 0;
 	set beresp.http.X-nuCache-Debug-Cache-Msg = "{";
-    if (beresp.ttl <= 0s) {
-		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 1;
-        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "!NotCacheable:WillDie";
-    } else {
-        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "~Cacheable";
+	# CRUD
+	if (req.request == "GET") {
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "~R:GET";
+	} else {
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = std.integer(beresp.http.X-nuCache-Debug-Cache-Msg-magic, 0) + 1;
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "!CUD:" + req.request;
 	}
+	# TTL
+    if (beresp.ttl <= 0s) {
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = std.integer(beresp.http.X-nuCache-Debug-Cache-Msg-magic, 0) + 1;
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|!NotCacheable:WillDie";
+    } else {
+        set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|~Cacheable";
+	}
+	# COOKIE
 	if (req.http.Cookie) {
-		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 1;
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = std.integer(beresp.http.X-nuCache-Debug-Cache-Msg-magic, 0) + 1;
         set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|!GotCookie";
     } else {
         set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|~NoFood";
 	}
+	# Cache-Control
 	if (beresp.http.Cache-Control ~ "private") {
-		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = 1;
+		set beresp.http.X-nuCache-Debug-Cache-Msg-magic = std.integer(beresp.http.X-nuCache-Debug-Cache-Msg-magic, 0) + 1;
         set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|!Private";
     } else {
         set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "|~Public";
     }
 	set beresp.http.X-nuCache-Debug-Cache-Msg = beresp.http.X-nuCache-Debug-Cache-Msg + "}";
-	if(beresp.http.X-nuCache-Debug-Cache-Msg-magic) {
-		set beresp.http.X-nuCache-Debug-Cache-Msg = "!SeemsLikeMiss" + beresp.http.X-nuCache-Debug-Cache-Msg;
-	}
-	else {
-		set beresp.http.X-nuCache-Debug-Cache-Msg = "~SeemsLikeHit" + beresp.http.X-nuCache-Debug-Cache-Msg;
+	if(std.integer(beresp.http.X-nuCache-Debug-Cache-Msg-magic, 0) > 0) {
+		set beresp.http.X-nuCache-Debug-Cache-Msg = "!SeemsLikeMiss" + beresp.http.X-nuCache-Debug-Cache-Msg + ":" + beresp.http.X-nuCache-Debug-Cache-Msg-magic;
+	} else {
+		set beresp.http.X-nuCache-Debug-Cache-Msg = "~SeemsLikeHit" + beresp.http.X-nuCache-Debug-Cache-Msg + ":0";
 	}
 	unset beresp.http.X-nuCache-Debug-Cache-Msg-magic;
     
@@ -103,6 +117,10 @@ sub vcl_fetch {
 sub vcl_deliver {
     # Trace DELIVER
     set resp.http.X-nuCache-Debug-Trace-DLV = std.toupper(resp.proto);
+	std.log("====[ nuCache::Debug:DLV ]======================================================");
+
+	# HTTP Method
+	set resp.http.X-nuCache-Debug-Method = req.request;
 
 	# Trace URL Changes
     set resp.http.X-nuCache-Debug-URL-DLV = req.url;
@@ -124,10 +142,10 @@ sub vcl_deliver {
     # HIT or MISS ?
     if (obj.hits > 0) {
         # Cache Status
-        set resp.http.X-nuCache-Debug-Cache-Status = "HIT";
+        set resp.http.X-nuCache-Debug-Cache-Status = "~HIT";
     } else {
         # Cache Status
-        set resp.http.X-nuCache-Debug-Cache-Status = "MISS";
+        set resp.http.X-nuCache-Debug-Cache-Status = "!MISS";
     }
     
     # Object Hits Count
@@ -154,6 +172,7 @@ sub vcl_deliver {
 sub vcl_pass {
     # Trace PASS
     set bereq.http.X-nuCache-Debug-Trace-PSS = std.toupper(req.proto);
+	std.log("====[ nuCache::Debug:PSS ]======================================================");
 
 	# Trace URL Changes
     set bereq.http.X-nuCache-Debug-URL-PSS = req.url;
@@ -167,6 +186,7 @@ sub vcl_pass {
 sub vcl_pipe {
     # Trace Pipe
     set bereq.http.X-nuCache-Debug-Trace-PIP = std.toupper(req.proto);
+	std.log("====[ nuCache::Debug:PIP ]======================================================");
 
 	# Trace URL Changes
     set bereq.http.X-nuCache-Debug-URL-PIP = req.url;
@@ -176,11 +196,13 @@ sub vcl_pipe {
 sub vcl_hash {
     # Trace HASH
     set req.http.X-nuCache-Debug-Trace-HSH = std.toupper(req.proto);
+	std.log("====[ nuCache::Debug:HSH ]======================================================");
 }
 
 ########[ ERROR ]###############################################################
 sub vcl_error {
     # Trace ERROR
     set obj.http.X-nuCache-Debug-Trace-ERR = std.toupper(obj.proto);
+	std.log("====[ nuCache::Debug:ERR ]======================================================");
 }
 
