@@ -1,7 +1,7 @@
 /**
  * Block access to Drupal admin script from outsite
  */
-sub denyIfRxDrupalScript {
+sub denyIfRxDrupalScripts {
 	if (req.url ~ "^/(cron|install|update|xmlrpc)\.php$" && !client.ip ~ drupal_internal) {
 		error 403 "Forbidden.";
 	}
