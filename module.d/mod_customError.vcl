@@ -37,9 +37,9 @@ sub vcl_error {
         h1 { padding: 20px 40px; font-size: 26pt; background-color: #000; color: #FFF; }
         h1 .symbol { color: #FFF; font-size: 40pt; }
         h1:hover .symbol { color: purple; }
-		#colorBarz { overflow: auto; }
+		#colorBarz { height: 10px; overflow: hidden; background-color: #CCC; }
         .colorBar { height: 10px; float: left; width: 20%; }
-        #colorBar1 { background-color: #CCC; } #colorBar2 { background-color: #888; } #colorBar3 { background-color: #444; } #colorBar4 { background-color: #888; } #colorBar5 { background-color: #CCC; }
+        #colorBar2 { background-color: #888; } #colorBar3 { background-color: #444; } #colorBar4 { background-color: #888; }
         .colorBar:hover { background-color: purple !important; }
         #kvz, #errorMsg { padding: 40px; }
         #errorMsg:hover .symbol { color: purple !important; }
@@ -86,7 +86,8 @@ sub vcl_error {
     <hr />
     <div id="footer"><span class="symbol">&nu;</span>Cache v"} + std.fileread("/etc/varnish/VERSION") + {"</div>
 </body>
-</html>"};
+</html>
+	"};
 
     return (deliver);
 }
