@@ -20,7 +20,7 @@ Features
     * *PHP*:					PHP Specific
     * *Drupal*:					Drupal 7.x Specific	
     * *ShortCircuit*:           Varnish Fuze: Pipes All Requests to BackEnd when Enabled
-    * *ShortCircuitTrigger*:    Varnish Fuze Trigger: Pipes All Requests to BackEnd when `VARNISH_FUZE` QueryString is Set
+    * *ShortCircuitTrigger*:    Varnish Fuze Trigger: Pipes All Requests to BackEnd when `NUCACHE_FUZE` QueryString is Set
     * *Security*:				WWW Security
     * *Default*:                Default Built-in Varnish-Cache VCL
     * *Debug*:                  Sets Additional Information HTTP Headers for Debug Purposes
