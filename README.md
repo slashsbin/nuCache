@@ -66,14 +66,27 @@ Index
 * `VERSION`           					nuCache Versoin
 * `README.md`         					Readme, You are here!
 
-Installation
-------------
-1. Keep & Rename Default Varnish conf file(`default.vcl`)
-2. Copy files to your Varnish conf folder
-3. Use `etc/daemon` as VarnishD Daemon Config file
-4. Enjoy!
+Installation                                                                    
+------------                                                                    
+1. Copy/Clone nuCache files to `/etc/varnish`
 
-See INSTALL Text file for more Information & details.
+	```bash
+	$ cd /etc/varnish
+	$ git clone https://github.com/slashsBin/nuCache.git .
+	```
+2. Use `etc/daemon` file as VarnishD Daemon Config file
+
+	```bash
+	# Debian
+	$ mv /etc/default/varnish{,.nuCacheSave}
+	$ ln -s /etc/varnish/etc/daemon /etc/default/varnish
+	# CentOS
+	$ mv /etc/sysconfig/varnish{,.nuCacheSave}
+	$ ln -s /etc/varnish/etc/daemon /etc/sysconfig/varnish
+	```
+3. Enjoy!
+
+See INSTALL.md for more Information & details.
 
 License
 -------
