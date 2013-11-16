@@ -369,9 +369,13 @@ sub removeTrackingCookies {
  * nuCache Header Marks
  */
 sub nuCacheInfo {
-	if(resp.http.X-Powered-By) {
+	if(resp.http.X-Powered-By && obj.hits > 0) {
 		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; <3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " ";
-	} else {
+	} else if(resp.http.X-Powered-By) {
+		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; </3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " ";
+	} else if(obj.hits > 0) {
 		set resp.http.X-Powered-By = "<3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " " ;
+	} else {
+		set resp.http.X-Powered-By = "</3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " " ;
 	}
 }
