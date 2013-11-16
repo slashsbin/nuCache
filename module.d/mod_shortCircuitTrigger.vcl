@@ -36,6 +36,10 @@ sub vcl_fetch {
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
+	if( req.http.X-nuCache-Debug ) {                                            
+        set resp.http.X-nuCache-Debug-Mod-ShortCircuitTrigger = "Enabled";
+    }
+
     if( req.url ~ "(?i)NUCACHE_FUZE" ) {
         return (deliver);
     }

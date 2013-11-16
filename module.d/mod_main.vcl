@@ -65,6 +65,10 @@ sub vcl_fetch {
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
+	if( req.http.X-nuCache-Debug ) {                                            
+        set resp.http.X-nuCache-Debug-Mod-Core = "Enabled";                 
+    }
+
     call nuCacheInfo;
 	return (deliver);
 }

@@ -46,7 +46,7 @@ sub vcl_fetch {
  */
 sub vcl_deliver {
     if( req.http.X-Varnish-Debug ) {
-        set resp.http.X-Varnish-Debug-ModX = "Enabled";
+        set resp.http.X-Varnish-Debug-Mod-X = "Enabled";
     }
 }
 

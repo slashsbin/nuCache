@@ -3,10 +3,19 @@
 #############################
 import std;
 
+
+#################
+# Debug Modules #
+#################
+include "module.d/mod_debugTrigger.vcl";
+#include "module.d/mod_debug.vcl";
+
+
 #######################
 # User Custom Modules #
 #######################
 include "module.d/mod_userCustom.vcl";
+
 
 ###################
 # General Modules #
@@ -15,7 +24,6 @@ include "module.d/mod_customError.vcl";
 #include "module.d/mod_shortCircuit.vcl";
 #include "module.d/mod_shortCircuitTrigger.vcl";
 #include "module.d/mod_test.vcl";
-#include "module.d/mod_debug.vcl";
 
 
 ####################

@@ -9,7 +9,14 @@
 ########[ RECV ]################################################################
 sub vcl_recv {
 	# Test Error Page
-	#error 503;
+	#error 400 "Ooops";
+}
+
+########[ DELIVER ]#############################################################
+sub vcl_deliver {
+	if( req.http.X-nuCache-Debug ) {                                            
+		set resp.http.X-nuCache-Debug-Mod-CustomError = "Enabled";                 
+    }
 }
 
 ########[ ERROR ]###############################################################
