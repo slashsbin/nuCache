@@ -62,7 +62,7 @@ Index
 * [etc/](etc/)              													ETC files
     * [daemon](etc/daemon)        												VarnishD Daemon Config
 * [nuCache.vcl](nuCache.vcl)       												Bootstarp File
-* [INSTALL](INSTALL)           													Installation Manual
+* [INSTALL.md](INSTALL.md)     													Installation Manual
 * [VERSION](VERSION)           													nuCache Versoin
 * [README.md](README.md)							         					Readme, You are here!
 
