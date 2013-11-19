@@ -32,7 +32,7 @@ sub vcl_error {
       '|.|   '|.      . .|' ||  ||       ||  ||  ||     
        '|     ''|....'  '|..'|'  '|...' .||. ||.  '|...'
     
-    Powered By nuCache v"} + std.fileread("/etc/varnish/VERSION") + {" & <3
+    Powered By nuCache v"} + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "") + {" & <3
 -->
 <html>
 <head>
@@ -91,7 +91,7 @@ sub vcl_error {
     </div>
     
     <hr />
-    <div id="footer"><span class="symbol">&nu;</span>Cache v"} + std.fileread("/etc/varnish/VERSION") + {"</div>
+    <div id="footer"><span class="symbol">&nu;</span>Cache v"} + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "") + {"</div>
 </body>
 </html>
 	"};

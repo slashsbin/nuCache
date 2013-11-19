@@ -370,12 +370,12 @@ sub removeTrackingCookies {
  */
 sub nuCacheInfo {
 	if(resp.http.X-Powered-By && obj.hits > 0) {
-		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; <3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " ";
+		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; <3 & nuCache v" + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "");
 	} else if(resp.http.X-Powered-By) {
-		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; </3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " ";
+		set resp.http.X-Powered-By = resp.http.X-Powered-By + "; </3 & nuCache v" + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "");
 	} else if(obj.hits > 0) {
-		set resp.http.X-Powered-By = "<3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " " ;
+		set resp.http.X-Powered-By = "<3 & nuCache v" + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "");
 	} else {
-		set resp.http.X-Powered-By = "</3 & nuCache v" + std.fileread("/etc/varnish/VERSION") + " " ;
+		set resp.http.X-Powered-By = "</3 & nuCache v" + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "");
 	}
 }
