@@ -1,14 +1,12 @@
-include "module.d/mod_php_lib.vcl";
+include "module.d/mod_dotNet_lib.vcl";
 
 /*
- * Module PHP
+ * Module .Net
  */
 
 ########[ RECV ]################################################################
 sub vcl_recv {
-    call passIfIsPHP;
-
-	call removeUnnecessaryPHPCookies;
+	call cacheAlwaysDotNetHandlers;
 }
 
 ########[ HIT ]#################################################################
@@ -28,8 +26,8 @@ sub vcl_fetch {
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
-    if( req.http.X-nuCache-Debug ) {
-        set resp.http.X-nuCache-Debug-Mod-PHP = "Enabled";
+    if( req.http.X-Varnish-Debug ) {
+        set resp.http.X-Varnish-Debug-Mod-dotNet = "Enabled";
     }
 }
 
@@ -47,3 +45,4 @@ sub vcl_pipe {
 sub vcl_hash {
 
 }
+

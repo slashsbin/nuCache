@@ -3,7 +3,7 @@
 [![Project Status](http://stillmaintained.com/slashsBin/nuCache.png)](http://stillmaintained.com/slashsBin/nuCache) <script type="text/javascript" src="http://www.ohloh.net/p/652070/widgets/project_thin_badge.js"></script>
 
 
-`/sBin/nuCache v1.1.3`
+`/sBin/nuCache v1.1.4`
 
 Overview
 --------
@@ -19,6 +19,7 @@ Features
     * *Custom Error*:           A Custom Error Page
     * *PHP*:					PHP Specific
     * *Drupal*:					Drupal Specific	
+	* *.Net*:					ASP.Net Specific
     * *ShortCircuit*:           Pipes All Requests to BackEnd when Enabled
     * *ShortCircuitTrigger*:    Same as Mod-ShortCircuit but only when `NUCACHE_FUZE` QueryString is Set
     * *Security*:				General W3 Security
@@ -50,6 +51,8 @@ Index
     * `mod_drupal.vcl`					Mod-Drupal
     * `mod_drupal_lib.vcl`				Mod-Drupal Library
     * `mod_drupal_acl.vcl`				Mod-Drupal ACL
+    * `mod_dotNet.vcl`					Mod-DotNet
+    * `mod_dotNet_lib.vcl`				Mod-DotNet Library
     * `mod_shortCircuit.vcl`			Mod-ShortCircuit
     * `mod_shortCircuitTrigger.vcl`		Mod-ShortCircuitTrigger
     * `mod_customError.vcl`				Mod-CustomError

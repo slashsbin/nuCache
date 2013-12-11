@@ -1,10 +1,14 @@
+
 /*
  * Module Security
  */
 
+include "module.d/mod_security_acl.vcl";
+include "module.d/mod_security_lib.vcl";
+
 ########[ RECV ]################################################################
 sub vcl_recv {
-
+	#call secureAccess;
 }
 
 ########[ HIT ]#################################################################
@@ -21,6 +25,7 @@ sub vcl_miss {
 sub vcl_fetch {
 	unset beresp.http.Server;
 	unset beresp.http.X-Powered-By;
+	unset beresp.http.X-AspNet-Version;
 }
 
 ########[ DELIVER ]#############################################################
