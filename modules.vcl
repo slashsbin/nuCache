@@ -32,6 +32,11 @@ include "module.d/mod_customError.vcl";
 include "module.d/mod_security.vcl";
 
 
+################
+# .Net Modules #
+################
+#include "module.d/mod_dotNet.vcl";
+
 ##########################
 # WWW/PHP/Drupal Modules #
 ##########################
