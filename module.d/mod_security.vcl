@@ -9,6 +9,7 @@ include "module.d/mod_security_lib.vcl";
 ########[ RECV ]################################################################
 sub vcl_recv {
 	call secureAccess;
+	call secureUA;
 }
 
 ########[ HIT ]#################################################################
