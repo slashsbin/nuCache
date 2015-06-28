@@ -3,7 +3,7 @@
  *
  * Overrides Default Varnish-Cache Conf file, See mod_default.
  */
- 
+
 include "module.d/mod_main_acl.vcl";
 include "module.d/mod_main_lib.vcl";
 
@@ -12,23 +12,24 @@ sub vcl_recv {
     #call banIfAllowed;
     #call normalizeUserAgent;
     call normalizeAcceptEncoding;
-    
+
     call setClientIPOnRestart;
     #call setClientIPOverride;
     call setClientIPAppend;
-    
+
     call pipeIfNonRFC2616;
     call passIfNonIdempotent;
     call passPipeIfAuthorized;
+    call pipeIfUpgradeToWS;
 
 	# Conflicts with ModDrupal::removeQueryStringFromStaticsRxKeepDrupalish
 	call removeQueryStringFromStaticsRx;
-    
+
     #call removeCookiesFromAll;
     call removeCookiesFromStaticsRx;
 	call removeTrackingCookies;
 
-	call cacheAlwaysAll;    
+	call cacheAlwaysAll;
     #call cacheAlwaysWWW;
     #call cacheAlwaysScripts;
     #call cacheAlwaysImages;
@@ -36,7 +37,7 @@ sub vcl_recv {
     #call cacheAlwaysXML;
 
 	call passIfGotCookie;
-    
+
     return (lookup);
 }
 
@@ -59,14 +60,14 @@ sub vcl_fetch {
     call saintModeOnServiceUnavailable;
 
     call hitPassIfHasCookie;
-    
+
     return (deliver);
 }
 
 ########[ DELIVER ]#############################################################
 sub vcl_deliver {
-	if( req.http.X-nuCache-Debug ) {                                            
-        set resp.http.X-nuCache-Debug-Mod-Core = "Enabled";                 
+	if( req.http.X-nuCache-Debug ) {
+        set resp.http.X-nuCache-Debug-Mod-Core = "Enabled";
     }
 
     call nuCacheInfo;
@@ -80,6 +81,7 @@ sub vcl_pass {
 
 ########[ PIPE ]################################################################
 sub vcl_pipe {
+    call setHttpUpgrade;
     return (pipe);
 }
 
@@ -87,10 +89,9 @@ sub vcl_pipe {
 sub vcl_hash {
     call hashUrl;
     call hashServerInfo;
-    
+
     call hashCookieAuth;
     call hashCompressClients;
 
     return (hash);
 }
-

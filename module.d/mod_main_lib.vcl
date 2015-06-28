@@ -298,9 +298,9 @@ sub banIfAllowed {
         if (!client.ip ~ purge) {
             error 405 "Not allowed.";
         }
-        
+
         ban("req.http.host == " + req.http.host + " && req.url ~ " + req.url);
-        
+
         error 200 "Ban added";
     }
 }
@@ -378,4 +378,22 @@ sub nuCacheInfo {
 	} else {
 		set resp.http.X-Powered-By = "</3 & nuCache v" + regsuball(std.fileread("/etc/varnish/VERSION"), "[\s]*$", "");
 	}
+}
+
+/**
+ * Set BackEnd HTTP Upgrade Header if it Exists in Request
+ */
+sub setHttpUpgrade {
+    if (req.http.upgrade) {
+        set bereq.http.upgrade = req.http.upgrade;
+    }
+}
+
+/**
+ * Pipe Request on HTTP Upgrade for WebSockets
+ */
+sub pipeIfUpgradeToWS {
+    if (req.http.Upgrade ~ "(?i)websocket") {
+        return (pipe);
+    }
 }
