@@ -69,3 +69,13 @@ sub removeQueryStringFromStaticsRxKeepDrupalish {
 		set req.url = regsuball(req.url, "\?(.*)(itok=[^&]+)(.*)", "\?\2");
 	}
 }
+
+/*
+ * Deliver Content to Client on BackEnd HTTP Status Code 503
+ * To Support Drupal Maintenance/Offline Pages
+ */
+sub deliverForOfflineMode {
+	if(beresp.status == 503) {
+		return (deliver);
+	}
+}

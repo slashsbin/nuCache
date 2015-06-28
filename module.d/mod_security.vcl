@@ -8,7 +8,9 @@ include "module.d/mod_security_lib.vcl";
 
 ########[ RECV ]################################################################
 sub vcl_recv {
-	#call secureAccess;
+	call secureAccess;
+	call secureUA;
+	#call secureGoodUA;
 }
 
 ########[ HIT ]#################################################################
@@ -35,6 +37,7 @@ sub vcl_deliver {
     }
 	unset resp.http.Via;
 	unset resp.http.X-Varnish;
+	unset resp.http.X-Drupal-Cache;
 	set resp.http.X-Frame-Options = "SAMEORIGIN";
 }
 
