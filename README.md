@@ -3,7 +3,7 @@
 [![Project Status](http://stillmaintained.com/slashsBin/nuCache.png)](http://stillmaintained.com/slashsBin/nuCache) <script type="text/javascript" src="http://www.ohloh.net/p/652070/widgets/project_thin_badge.js"></script>
 
 
-`/sBin/nuCache v1.1.7`
+`/sBin/nuCache v1.1.8`
 
 Overview
 --------
@@ -18,7 +18,7 @@ Features
     * *Main*:                   General Purpose WWW & Server-Side Language InDependant, Core nuCache Module
     * *Custom Error*:           A Custom Error Page
     * *PHP*:					PHP Specific
-    * *Drupal*:					Drupal Specific	
+    * *Drupal*:					Drupal Specific
 	* *.Net*:					ASP.Net Specific
     * *ShortCircuit*:           Pipes All Requests to BackEnd when Enabled
     * *ShortCircuitTrigger*:    Same as Mod-ShortCircuit but only when `NUCACHE_FUZE` QueryString is Set
@@ -69,8 +69,8 @@ Index
 * `VERSION`           					nuCache Versoin
 * `README.md`         					Readme, You are here!
 
-Installation                                                                    
-------------                                                                    
+Installation
+------------
 1. Copy/Clone nuCache files to `/etc/varnish`
 
 	```bash
@@ -94,4 +94,3 @@ See INSTALL.md for more Information & details.
 License
 -------
 nuCache is licensed under the [MIT License](http://slashsbin.mit-license.org/).
-
